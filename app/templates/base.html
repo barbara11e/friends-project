@@ -1,0 +1,37 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {% if title %}{{ title }} - Поиск друзей{% else %}Добро пожаловать в Поиск друзей!{% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
+      <div>Поиск друзей:
+        <a href="/">Главная</a>
+        <a href="{{ url_for('map_layout') }}">Карта</a>
+        {% if current_user.is_anonymous %}
+        <a href="{{ url_for('auth') }}">Войти</a>
+        {% else %}
+        <a href="{{ url_for('logout') }}">Выйти</a>
+        <b>{{ current_user.username }}</b>
+        {% endif %}
+      </div>
+    </nav>
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {# application content needs to be provided in the app_content block #}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}
