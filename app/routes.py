@@ -30,7 +30,10 @@ def map_layout():
 def profile(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
     form = EmptyForm()
-    lat, lng = user.coords.split(';')
+    if user.coords:
+        lat, lng = user.coords.split(';')
+    else:
+        lat, lng = None, None
     return render_template('profile.html', user=user, form=form, lat=lat, lng=lng)
 
 
