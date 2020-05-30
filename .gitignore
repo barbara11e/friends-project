@@ -1,3 +1,6 @@
 pyenv/*
 stuff/*
 __pycache__/*
+app/__pycache__/*
+migrations/versions/__pycache__/*
+app.db

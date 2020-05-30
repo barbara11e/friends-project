@@ -23,7 +23,7 @@ def map_layout():
     return render_template('map_layout.html')
 
 
-# Профиль пользователя
+# User profile
 @app.route('/profile/<user_id>')
 @login_required
 def profile(user_id):
@@ -32,7 +32,7 @@ def profile(user_id):
     return render_template('profile.html', user=user, form=form)
 
 
-# Редактирование профиля
+# Edit profile
 @app.route('/profile/edit', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -40,24 +40,29 @@ def edit_profile():
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
+        current_user.city = form.city.data
+        current_user.age = form.age.data
+        current_user.link = form.link.data
+        current_user.coords = form.coords.data
         db.session.commit()
         flash('Изменения сохранены.')
-        return redirect(url_for('edit_profile'))
+        return redirect(url_for('profile', user_id=current_user.id))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
+        form.city.data = current_user.city
     return render_template('edit_profile.html', title='Изменить профиль',
                            form=form)
 
 
-# Сообщения
+# Messages
 @app.route('/messages')
 @login_required
 def messages():
     return render_template('messages.html')
 
 
-# Аутентификация пользователя
+# User login
 @app.route('/auth',  methods=['GET', 'POST'])
 def auth():
     form = LoginForm()
@@ -76,7 +81,7 @@ def auth():
     return render_template('auth.html', title='Войти', form=form)
 
 
-# Регистрация
+# Registration
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
     if current_user.is_authenticated:
@@ -98,6 +103,7 @@ def logout():
     return redirect(url_for('index'))
 
 
+# Update user last seen
 @app.before_request
 def before_request():
     if current_user.is_authenticated:
@@ -105,17 +111,6 @@ def before_request():
         time = datetime.now(tz)
         current_user.last_seen = time
         db.session.commit()
-
-
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('not_found.html', title="Не найдено: Поиск друзей"), 404
-
-
-@app.errorhandler(500)
-def internal_error(error):
-    db.session.rollback()
-    return render_template('server_error.html'), 500
 
 
 @app.route('/follow/<id>', methods=['POST'])
@@ -156,3 +151,15 @@ def unfollow(id):
         return redirect(url_for('profile', user_id=id))
     else:
         return redirect(url_for('index'))
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('not_found.html', title="Не найдено: Поиск друзей"), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    db.session.rollback()
+    return render_template('server_error.html'), 500
+

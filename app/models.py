@@ -27,7 +27,6 @@ class User(UserMixin, db.Model):
     coords = db.Column(db.String)
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
-    # messages = db.relationship('Message', backref='sender', lazy='dynamic')
 
     def __repr__(self):
         return '<User %r>' % self.username

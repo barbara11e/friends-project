@@ -2,21 +2,40 @@
 
 {% block app_content %}
 <h1>Изменить профиль</h1>
-<ul>
-    <li>Дарина Александрова</a></li>
-    <li>36 лет</li>
-    <li>Москва</li>
-    <li>vk: https://vk.com/varentinaa</li>
-    <li>Фото</a></li>
-</ul>
-<p><a href="/">Назад</a></p>
-
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>
             {{ form.username(size=32) }}<br>
             {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.city.label }}<br>
+            {{ form.city }}<br>
+            {% for error in form.city.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.link.label }}<br>
+            {{ form.link }}<br>
+            {% for error in form.link.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.age.label }}<br>
+            {{ form.age }}<br>
+            {% for error in form.age.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.coords.label }}<br>
+            {{ form.coords }}<br>
+            {% for error in form.coords.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>

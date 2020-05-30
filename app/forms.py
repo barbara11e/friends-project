@@ -1,5 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms import (StringField, PasswordField, 
+                        BooleanField, SubmitField, 
+                        TextAreaField, IntegerField)
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import User
 
@@ -31,6 +33,10 @@ class RegistrationForm(FlaskForm):
     
 class EditProfileForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired()])
+    city = StringField('Город')
+    link = StringField('Ссылка на соцсеть')
+    coords = StringField('Геокоординаты')
+    age = IntegerField('Возраст')
     about_me = TextAreaField('Описание', validators=[Length(min=0, max=140)])
     submit = SubmitField('Подтвердить')
 

@@ -10,10 +10,12 @@
                 {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
                 {% if user.last_seen %}<p>Был в сети в: {{ user.last_seen.strftime('%H:%M:%S %m.%d.%y') }}</p>{% endif %}
                 <li>{{ user.username }}</a></li>
+                <li>{{ user.email }}</a></li>
                 {% if user.age %}<li><p>{{ user.age }}</p></li>{% endif %}
-                <li>Москва</li>
-                <li>vk: https://vk.com/varentinaa</li>
-                <li>Фото</a></li>
+                {% if user.city %}<li><p>{{ user.city }}</p></li>{% endif %}
+                {% if user.link %}<li><p>{{ user.link }}</p></li>{% endif %}
+                {% if user.coords %}<li><p>{{ user.coords }}</p></li>{% endif %}
+                <li>Фото</li>
             </ul>
         </td>
         <td>
@@ -36,6 +38,6 @@
             {% endif %}</td>
         </tr>  
 </table>
-<p><a href="/">Назад</a></p>
+<p><a href="/">На главную</a></p>
 
 {% endblock %}
