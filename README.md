@@ -42,7 +42,7 @@ export FLASK_APP=hello
 export FLASK_ENV=development
 flask run
 ```
-**База данны**: Настроено взаимодействие с файловой базой данных SQlite, ORM - SQLAlchemy. Содержится 3 основных таблицы: users, followers, messages.
+**База данны**: Настроено взаимодействие с файловой базой данных SQlite, ORM - SQLAlchemy. Содержится 2 основных таблицы: users, followers.
 users имеет атрибуты:
 - id, username, email, password_hash, age, city, link, coords, about_me, last_seen
 

@@ -8,6 +8,7 @@ from werkzeug.urls import url_parse
 from app import db
 from datetime import datetime
 from pytz import timezone
+from geolocator import Geolocator
 
 
 @app.route('/')
@@ -29,7 +30,8 @@ def map_layout():
 def profile(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
     form = EmptyForm()
-    return render_template('profile.html', user=user, form=form)
+    lat, lng = user.coords.split(';')
+    return render_template('profile.html', user=user, form=form, lat=lat, lng=lng)
 
 
 # Edit profile
@@ -43,7 +45,8 @@ def edit_profile():
         current_user.city = form.city.data
         current_user.age = form.age.data
         current_user.link = form.link.data
-        current_user.coords = form.coords.data
+        current_user.address = form.address.data
+        current_user.coords = Geolocator(form.address.data).str_coords()
         db.session.commit()
         flash('Изменения сохранены.')
         return redirect(url_for('profile', user_id=current_user.id))
@@ -52,18 +55,10 @@ def edit_profile():
         form.about_me.data = current_user.about_me
         form.city.data = current_user.city
         form.age.data = current_user.age
-        form.coords.data = current_user.coords
+        form.address.data = current_user.address
         form.link.data = current_user.link
     return render_template('edit_profile.html', title='Изменить профиль',
                            form=form)
-
-
-# Messages
-@app.route('/messages')
-@login_required
-def messages():
-    return render_template('messages.html')
-
 
 # User login
 @app.route('/auth',  methods=['GET', 'POST'])

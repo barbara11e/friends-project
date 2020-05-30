@@ -35,7 +35,7 @@ class EditProfileForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired()])
     city = StringField('Город')
     link = StringField('Ссылка на соцсеть')
-    coords = StringField('Геокоординаты')
+    address = StringField('Адрес')
     age = IntegerField('Возраст')
     about_me = TextAreaField('Описание', validators=[Length(min=0, max=140)])
     submit = SubmitField('Подтвердить')
@@ -51,4 +51,4 @@ class EditProfileForm(FlaskForm):
                 raise ValidationError('Пожалуйста, введите другое имя.')
 
 class EmptyForm(FlaskForm):
-    submit = SubmitField('Следить')
+    submit = SubmitField('Подписаться')

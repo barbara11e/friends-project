@@ -11,10 +11,9 @@
               {% if user.last_seen %}<p>Последний раз в сети в: {{ user.last_seen.strftime('%H:%M:%S %m.%d.%y') }}</p>{% endif %}
               <li>{{ user.email }}</a></li>
               {% if user.age %}<li><p>Возраст: {{ user.age }}</p></li>{% endif %}
-              {% if user.city %}<li><p>{{ user.city }}</p></li>{% endif %}
-              {% if user.link %}<li><p>Можно найти на: <a>{{ user.link }}</a></p></li>{% endif %}
-              {% if user.coords %}<li><p>{{ user.coords }}</p></li>{% endif %}
-              <li>Фото</li>
+              {% if user.coords %}<li><p>Геолокация: {{ user.coords }}</p></li>{% endif %}
+              {% if user.link %}<li><p>Можно связаться: <a target="_blank" href="{{ user.link}}">{{ user.link }}</a></p></li>{% endif %}
+              {% if user.address %}<li><p>{{ user.address }}</p></li>{% endif %}
           </ul>
       </td>
   </tr>
@@ -49,6 +48,27 @@
     </td>
   </tr>
 </table>
+
+<h2>{{ user.username }} на карте:</h2>
+<div id="map"></div>
+
 <p><a href="/">На главную</a></p>
 
+<script>
+  function initMap() {
+    var user_loc = {lat: {{ lat|safe }}, lng: {{ lng|safe }}};
+    var map = new google.maps.Map(document.getElementById('map'), {zoom: 11, center: user_loc});
+    var marker = new google.maps.Marker({position: user_loc, map: map});
+  }
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCP5XP_S4EOFdpI8ceg3cGvzN7POyFqsOA&callback=initMap">
+</script>
+<style>
+  #map {
+    width: 100%;
+    height: 400px;
+    background-color: grey;
+  }
+</style>
 {% endblock %}

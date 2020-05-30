@@ -12,7 +12,6 @@
     {% else %}
     <p><a href="{{ url_for('profile', user_id=current_user.id) }}">Мой профиль</a></p>
     <p><a href="{{ url_for('edit_profile') }}">Редактировать мой профиль</a></p>
-    <p><a href="{{ url_for('messages') }}">Сообщения</a></p>
 
     <a href="{{ url_for('map_layout')}}">Карта</a>
     {% endif %}

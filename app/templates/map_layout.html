@@ -1,62 +1,25 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Поиск друзей</title>
-    <style>
-      #map {
-        height: 100%;
-      }
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="map"></div>
-    <script>
+{% extends "base.html" %}
 
-      function initMap() {
-        var myLatLng = {lat: -9.363, lng: 19.044};
-        var myLatLng01 = {lat: -69.363, lng: 19.044};
-
-        const list = {
-          coords: {lat: -9.363,lng: 19.044},
-          coords01: {lat: -9.363,lng: 30.044},
-        }
-
-        for (var prop in list) {
-          console.log(list[prop] + "; " + myLatLng);
-          var marker = new google.maps.Marker({
-            position: list[prop],
-            map: map,
-            title: 'Hello World!'
-          });
-        }
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: myLatLng
-        });
-
-        var marker = new google.maps.Marker({
-          position: myLatLng,
-          map: map,
-          title: 'Hello World!'
-        });
-
-        var marker01 = new google.maps.Marker({
-          position: myLatLng01,
-          map: map,
-          title: 'Hello World!'
-        });
-      }
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCP5XP_S4EOFdpI8ceg3cGvzN7POyFqsOA&callback=initMap">
-    </script>
-  </body>
-</html> 
+{% block app_content %}
+<style>
+  #map {
+    width: 100%;
+    height: 400px;
+    background-color: grey;
+  }
+</style>
+</head>
+<body>
+  <h1>Найди друзей рядом</h1>
+  <div id="map"></div>
+  <script>
+    function initMap() {
+      var uluru = {lat: 55.7123346, lng: 37.5954745};
+      var map = new google.maps.Map(document.getElementById('map'), {zoom: 11, center: uluru});
+      var marker = new google.maps.Marker({position: uluru, map: map});
+    }
+  </script>
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCP5XP_S4EOFdpI8ceg3cGvzN7POyFqsOA&callback=initMap">
+  </script>
+{% endblock %}
