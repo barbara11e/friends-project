@@ -2,41 +2,52 @@
 
 {% block app_content %}
 <table>
-    <tr valign="top">
-        <td><img src="{{ user.avatar(identicon) }}"></td>
-        <td><h1>{{ user.username }}</h1></td>
-        <td>
-            <ul>
-                {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
-                {% if user.last_seen %}<p>Был в сети в: {{ user.last_seen.strftime('%H:%M:%S %m.%d.%y') }}</p>{% endif %}
-                <li>{{ user.username }}</a></li>
-                <li>{{ user.email }}</a></li>
-                {% if user.age %}<li><p>{{ user.age }}</p></li>{% endif %}
-                {% if user.city %}<li><p>{{ user.city }}</p></li>{% endif %}
-                {% if user.link %}<li><p>{{ user.link }}</p></li>{% endif %}
-                {% if user.coords %}<li><p>{{ user.coords }}</p></li>{% endif %}
-                <li>Фото</li>
-            </ul>
-        </td>
-        <td>
-            {% if user == current_user %}
-            <p><a href="{{ url_for('edit_profile') }}">Изменить профиль</a></p>
-            {% elif not current_user.is_following(user) %}
-            <p>
-                <form action="{{ url_for('follow', id=user.id) }}" method="post">
-                    {{ form.hidden_tag() }}
-                    {{ form.submit(value='Follow') }}
-                </form>
-            </p>
-            {% else %}
-            <p>
-                <form action="{{ url_for('unfollow', id=user.id) }}" method="post">
-                    {{ form.hidden_tag() }}
-                    {{ form.submit(value='Unfollow') }}
-                </form>
-            </p>
-            {% endif %}</td>
-        </tr>  
+  <tr valign="top">
+      <td><img src="{{ user.avatar(identicon) }}"></td>
+      <td><h1>{{ user.username }}</h1></td>
+      <td>
+          <ul>
+              {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
+              {% if user.last_seen %}<p>Последний раз в сети в: {{ user.last_seen.strftime('%H:%M:%S %m.%d.%y') }}</p>{% endif %}
+              <li>{{ user.email }}</a></li>
+              {% if user.age %}<li><p>Возраст: {{ user.age }}</p></li>{% endif %}
+              {% if user.city %}<li><p>{{ user.city }}</p></li>{% endif %}
+              {% if user.link %}<li><p>Можно найти на: <a>{{ user.link }}</a></p></li>{% endif %}
+              {% if user.coords %}<li><p>{{ user.coords }}</p></li>{% endif %}
+              <li>Фото</li>
+          </ul>
+      </td>
+  </tr>
+  <tr>
+    <td>
+      {% if user == current_user %}
+      <p><a href="{{ url_for('edit_profile') }}">Изменить профиль</a></p>
+      {% elif not current_user.is_following(user) %}
+      <p>
+        <form action="{{ url_for('follow', id=user.id) }}" method="post">
+          {{ form.hidden_tag() }}
+          {{ form.submit(value='Follow') }}
+        </form>
+      </p>
+      {% else %}
+      <p>
+        <form action="{{ url_for('unfollow', id=user.id) }}" method="post">
+          {{ form.hidden_tag() }}
+          {{ form.submit(value='Unfollow') }}
+        </form>
+      </p>
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Подписки: 
+      <p>{% for user in user.followed.all() %}
+        {% include '_user.html' %}
+        {% endfor %}
+      </p>
+    </td>
+  </tr>
 </table>
 <p><a href="/">На главную</a></p>
 

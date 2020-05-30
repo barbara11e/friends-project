@@ -51,6 +51,9 @@ def edit_profile():
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
         form.city.data = current_user.city
+        form.age.data = current_user.age
+        form.coords.data = current_user.coords
+        form.link.data = current_user.link
     return render_template('edit_profile.html', title='Изменить профиль',
                            form=form)
 
@@ -120,14 +123,14 @@ def follow(id):
     if form.validate_on_submit():
         user = User.query.filter_by(id=id).first()
         if user is None:
-            flash('Пользователь {} не найден.'.format(id))
+            flash('Пользователь {} не найден.'.format(user.username))
             return redirect(url_for('index'))
         if user == current_user:
             flash('Невозможно подписаться на свой аккаунт!')
             return redirect(url_for('user', id=id))
         current_user.follow(user)
         db.session.commit()
-        flash('Вы подписаны на {}!'.format(id))
+        flash('Вы подписались на поьзователя {}!'.format(user.username))
         return redirect(url_for('profile', user_id=id))
     else:
         return redirect(url_for('index'))
@@ -140,7 +143,7 @@ def unfollow(id):
     if form.validate_on_submit():
         user = User.query.filter_by(id=id).first()
         if user is None:
-            flash('Пользователь {} не найден.'.format(id))
+            flash('Пользователь {} не найден.'.format(user.username))
             return redirect(url_for('index'))
         if user == current_user:
             flash('Невозможно отписаться от себя!')
