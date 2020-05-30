@@ -7,3 +7,4 @@ flask-wtf
 flask-migrate
 email-validator
 flask-bootstrap
+pytz
